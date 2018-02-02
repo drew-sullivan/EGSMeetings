@@ -13,19 +13,9 @@ public class QuestionAndAnswer {
         mAnswer = answer;
     }
 
-    public int getQuestion() {
-        return mQuestion;
-    }
-
-    public void setQuestion(int question) {
-        mQuestion = question;
-    }
+    public int getQuestion() { return mQuestion; }
 
     public int getAnswer() {
         return mAnswer;
-    }
-
-    public void setAnswer(int answer) {
-        mAnswer = answer;
     }
 }

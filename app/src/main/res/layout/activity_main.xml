@@ -1,82 +1,80 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="@color/colorWhite"
-    android:orientation="vertical" >
+    android:gravity="center"
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/question_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="27pt"
+        android:layout_marginRight="27pt"
+        android:background="@drawable/first_question_color"
         android:padding="16dp"
         android:textColor="@color/colorWhite"
-        android:textSize="36dp"
-        android:background="@drawable/first_question_color"
-        android:layout_marginRight="27pt"
-        android:layout_marginLeft="27pt"/>
+        android:textSize="36sp" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/yes_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:textSize="32dp"
-            android:textColor="@color/colorSecondaryDark"
             android:background="@android:color/transparent"
-            android:textStyle="bold"
-            android:text="@string/yes_button"/>
+            android:text="@string/yes_button"
+            android:textColor="@color/colorSecondaryDark"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
         <Button
             android:id="@+id/no_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:textSize="32dp"
-            android:textColor="@color/colorSecondaryDark"
             android:background="@android:color/transparent"
-            android:textStyle="bold"
-            android:text="@string/no_button"/>
+            android:text="@string/no_button"
+            android:textColor="@color/colorSecondaryDark"
+            android:textSize="32sp"
+            android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/previous_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:textSize="16dp"
-            android:textColor="@color/colorSecondaryDark"
             android:background="@android:color/transparent"
-            android:text="@string/previous_button"/>
+            android:text="@string/previous_button"
+            android:textColor="@color/colorSecondaryDark"
+            android:textSize="16sp"
+            android:visibility="invisible" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/answer_text_view"
-        android:visibility="invisible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textColor="@color/colorWhite"
-        android:textSize="36dp"
-        android:background="@drawable/non_first_color_question"
-        android:layout_marginRight="27pt"
-        android:layout_marginLeft="27pt"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/start_over_button"
-            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:textSize="16dp"
-            android:textColor="@color/colorSecondaryDark"
             android:background="@android:color/transparent"
-            android:text="@string/previous_button"/>
+            android:text="@string/start_over_button"
+            android:textColor="@color/colorSecondaryDark"
+            android:textSize="16sp"
+            android:visibility="invisible" />
     </LinearLayout>
 </LinearLayout>

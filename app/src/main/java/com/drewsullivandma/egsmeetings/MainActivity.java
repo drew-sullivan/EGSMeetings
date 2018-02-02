@@ -5,15 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private Button mYesButton;
     private Button mNoButton;
     private Button mPreviousButton;
     private Button mStartOverButton;
-    private TextView mQuestionTextView;
-    private TextView mAnswerTextView;
+    private TextView mQuestionAndAnswerTextView;
     private QuestionAndAnswer[] mQsAndAs = new QuestionAndAnswer[] {
         new QuestionAndAnswer(R.string.q_1, R.string.q_1_toast),
         new QuestionAndAnswer(R.string.q_2, R.string.q_2_toast),
@@ -22,14 +20,18 @@ public class MainActivity extends AppCompatActivity {
     };
     private int mCurrentIndex = 0;
 
-    private void updateQuestion() {
-        if (mCurrentIndex != 0) {
-            mQuestionTextView.setBackgroundResource(R.drawable.non_first_color_question);
+    private void updateText() {
+        if (mCurrentIndex == 0) {
+            if (mPreviousButton != null) {
+                mPreviousButton.setVisibility(View.INVISIBLE);
+            }
+            mQuestionAndAnswerTextView.setBackgroundResource(R.drawable.first_question_color);
         } else {
-            mQuestionTextView.setBackgroundResource(R.drawable.first_question_color);
+            mPreviousButton.setVisibility(View.VISIBLE);
+            mQuestionAndAnswerTextView.setBackgroundResource(R.drawable.non_first_question_color);
         }
         int question = mQsAndAs[mCurrentIndex].getQuestion();
-        mQuestionTextView.setText(question);
+        mQuestionAndAnswerTextView.setText(question);
     }
 
     @Override
@@ -37,9 +39,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mQuestionTextView = findViewById(R.id.question_text_view);
-        mAnswerTextView = findViewById(R.id.answer_text_view);
-        updateQuestion();
+        mQuestionAndAnswerTextView = findViewById(R.id.question_text_view);
+        updateText();
 
         mYesButton = findViewById(R.id.yes_button);
         mYesButton.setOnClickListener(new View.OnClickListener() {
@@ -47,13 +48,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mCurrentIndex += 1;
                 if (mCurrentIndex == mQsAndAs.length) {
-                    mAnswerTextView.setText(R.string.schedule_meeting);
-                    hideYesNoPrevButtons();
-                    hideQuestionTextView();
-                    showAnswerAndStartOverButton();
-                    mCurrentIndex -= 1;
+                    toggleButtons();
+                    mQuestionAndAnswerTextView.setText(R.string.schedule_meeting);
                 } else {
-                    updateQuestion();
+                    updateText();
                 }
             }
         });
@@ -61,12 +59,12 @@ public class MainActivity extends AppCompatActivity {
         mNoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hideYesNoPrevButtons();
-                int answerId = mQsAndAs[mCurrentIndex].getAnswer();
-                mAnswerTextView.setText(answerId);
-                mStartOverButton.setText(R.string.start_over_button);
-                hideQuestionTextView();
-                showAnswerAndStartOverButton();
+                toggleButtons();
+                if (mCurrentIndex == 0) {
+                    mQuestionAndAnswerTextView.setBackgroundResource(R.drawable.non_first_question_color);
+                }
+                int answer = mQsAndAs[mCurrentIndex].getAnswer();
+                mQuestionAndAnswerTextView.setText(answer);
             }
         });
         mPreviousButton = findViewById(R.id.previous_button);
@@ -74,12 +72,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (mCurrentIndex > 0) {
-                    mNoButton.setEnabled(true);
                     mCurrentIndex -= 1;
-                    updateQuestion();
-                } else {
-                    Toast.makeText(MainActivity.this, R.string.toast_prev_beginning, Toast.LENGTH_SHORT).show();
                 }
+                updateText();
             }
         });
         mStartOverButton = findViewById(R.id.start_over_button);
@@ -87,41 +82,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mCurrentIndex = 0;
-                showYesNoPrevButtons();
-                hideAnswerAndStartOverButton();
-                updateQuestion();
-                showQuestionTextView();
+                toggleButtons();
+                updateText();
             }
         });
     }
 
-    private void hideYesNoPrevButtons() {
-        mYesButton.setVisibility(View.INVISIBLE);
-        mNoButton.setVisibility(View.INVISIBLE);
-        mPreviousButton.setVisibility(View.INVISIBLE);
-    }
-
-    private void showYesNoPrevButtons() {
-        mYesButton.setVisibility(View.VISIBLE);
-        mNoButton.setVisibility(View.VISIBLE);
-        mPreviousButton.setVisibility(View.VISIBLE);
-    }
-
-    private void hideAnswerAndStartOverButton() {
-        mAnswerTextView.setVisibility(View.INVISIBLE);
-        mStartOverButton.setVisibility(View.INVISIBLE);
-    }
-
-    private void showAnswerAndStartOverButton() {
-        mAnswerTextView.setVisibility(View.VISIBLE);
-        mStartOverButton.setVisibility(View.VISIBLE);
-    }
-
-    private void hideQuestionTextView() {
-        mQuestionTextView.setVisibility(View.INVISIBLE);
-    }
-
-    private void showQuestionTextView() {
-        mQuestionTextView.setVisibility(View.VISIBLE);
+    private void toggleButtons() {
+        if (mYesButton.getVisibility() == View.VISIBLE) {
+            mYesButton.setVisibility(View.GONE);
+            mNoButton.setVisibility(View.GONE);
+            mPreviousButton.setVisibility(View.GONE);
+            mStartOverButton.setVisibility(View.VISIBLE);
+        } else {
+            mYesButton.setVisibility(View.VISIBLE);
+            mNoButton.setVisibility(View.VISIBLE);
+            mPreviousButton.setVisibility(View.VISIBLE);
+            mStartOverButton.setVisibility(View.INVISIBLE);
+        }
     }
 }
